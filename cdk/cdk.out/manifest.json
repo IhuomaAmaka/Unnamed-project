@@ -1,0 +1,179 @@
+{
+  "version": "36.0.0",
+  "artifacts": {
+    "OrderStack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "OrderStack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "OrderStack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "OrderStack.template.json",
+        "terminationProtection": false,
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/1b6d4fc1c9c3ded75e5e7c032a1daee438456f712aee7edb32e3af5d912a8788.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "OrderStack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "OrderStack.assets"
+      ],
+      "metadata": {
+        "/OrderStack/OrdersTable/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "OrdersTable315BB997"
+          }
+        ],
+        "/OrderStack/OrdersTableParam/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "OrdersTableParam6919E2A4"
+          }
+        ],
+        "/OrderStack/OrderLambda/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "OrderLambdaServiceRoleD5490479"
+          }
+        ],
+        "/OrderStack/OrderLambda/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "OrderLambdaServiceRoleDefaultPolicyB925A13D"
+          }
+        ],
+        "/OrderStack/OrderLambda/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "OrderLambda008D7AE5"
+          }
+        ],
+        "/OrderStack/OrderApi/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "OrderApiD39141ED"
+          }
+        ],
+        "/OrderStack/OrderApi/CloudWatchRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "OrderApiCloudWatchRoleB19986D5"
+          }
+        ],
+        "/OrderStack/OrderApi/Account": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "OrderApiAccountDFC9E69A"
+          }
+        ],
+        "/OrderStack/OrderApi/Deployment/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "OrderApiDeployment0455804D891c96186b9f716b6e477629505d6565"
+          }
+        ],
+        "/OrderStack/OrderApi/DeploymentStage.prod/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "OrderApiDeploymentStageprod896808D5"
+          }
+        ],
+        "/OrderStack/OrderApi/Endpoint": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "OrderApiEndpoint315A9F2C"
+          }
+        ],
+        "/OrderStack/OrderApi/Default/order/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "OrderApiorder2BD86C91"
+          }
+        ],
+        "/OrderStack/OrderApi/Default/order/GET/ApiPermission.OrderStackOrderApiB0666B8E.GET..order": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "OrderApiorderGETApiPermissionOrderStackOrderApiB0666B8EGETorder97F03C26"
+          }
+        ],
+        "/OrderStack/OrderApi/Default/order/GET/ApiPermission.Test.OrderStackOrderApiB0666B8E.GET..order": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "OrderApiorderGETApiPermissionTestOrderStackOrderApiB0666B8EGETorderB56BB0BA"
+          }
+        ],
+        "/OrderStack/OrderApi/Default/order/GET/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "OrderApiorderGET44F6AEA6"
+          }
+        ],
+        "/OrderStack/OrderApi/Default/order/POST/ApiPermission.OrderStackOrderApiB0666B8E.POST..order": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "OrderApiorderPOSTApiPermissionOrderStackOrderApiB0666B8EPOSTorder3E0DE7E8"
+          }
+        ],
+        "/OrderStack/OrderApi/Default/order/POST/ApiPermission.Test.OrderStackOrderApiB0666B8E.POST..order": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "OrderApiorderPOSTApiPermissionTestOrderStackOrderApiB0666B8EPOSTorder58EE19E9"
+          }
+        ],
+        "/OrderStack/OrderApi/Default/order/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "OrderApiorderPOST0C4B8066"
+          }
+        ],
+        "/OrderStack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/OrderStack/CDKMetadata/Condition": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadataAvailable"
+          }
+        ],
+        "/OrderStack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/OrderStack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "OrderStack"
+    },
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    }
+  }
+}
