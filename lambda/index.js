@@ -1,18 +1,30 @@
-const AWS = require('aws-sdk');
-const ssm = new AWS.SSM();
-const dynamodb = new AWS.DynamoDB.DocumentClient();
-const https = require('https');
+import {
+  DynamoDBClient,
+  GetItemCommand,
+  PutItemCommand
+} from "@aws-sdk/client-dynamodb";
 
+import {
+  SSMClient,
+  GetParameterCommand
+} from "@aws-sdk/client-ssm";
+
+import https from "https";
+
+const ssm = new SSMClient({});
+const dynamodb = new DynamoDBClient({});
 let tableNameCache;
 
 const getTableName = async () => {
   if (tableNameCache) return tableNameCache;
-  const res = await ssm.getParameter({ Name: process.env.SSM_PARAM }).promise();
+  const res = await ssm.send(new GetParameterCommand({
+    Name: process.env.SSM_PARAM
+  }));
   tableNameCache = res.Parameter.Value;
   return tableNameCache;
 };
 
-exports.handler = async (event) => {
+export const handler = async (event) => {
   const method = event.httpMethod;
 
   if (method === 'GET') {
@@ -20,8 +32,18 @@ exports.handler = async (event) => {
     if (!orderId) return { statusCode: 400, body: 'Missing orderId' };
 
     const table = await getTableName();
-    const result = await dynamodb.get({ TableName: table, Key: { orderId } }).promise();
-    return { statusCode: 200, body: JSON.stringify(result.Item || {}) };
+    const result = await dynamodb.send(
+      new GetItemCommand({
+        TableName: table,
+        Key: {
+          orderId: { S: orderId }
+        }
+      })
+    );
+    return {
+      statusCode: 200,
+      body: JSON.stringify(result.Item || {})
+    };
   }
 
   if (method === 'POST') {
@@ -29,14 +51,14 @@ exports.handler = async (event) => {
     const eksData = await callEksService(body);
     const table = await getTableName();
 
-    await dynamodb.put({
+    await dynamodb.send(new PutItemCommand({
       TableName: table,
       Item: {
-        orderId: eksData.orderId,
-        status: eksData.status,
-        details: eksData.details
+        orderId: { S: eksData.orderId },
+        status: { S: eksData.status },
+        details: { S: eksData.details }
       }
-    }).promise();
+    }));
 
     return { statusCode: 200, body: JSON.stringify(eksData) };
   }
@@ -45,19 +67,20 @@ exports.handler = async (event) => {
 };
 
 const callEksService = (payload) => {
-  const options = {
-    hostname: 'https://48b1-76-67-62-151.ngrok-free.app',
-    port: 443,
-    path: '/process-order',
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' }
-  };
+  const url = 'https://48b1-76-67-62-151.ngrok-free.app/process-order';
 
   return new Promise((resolve, reject) => {
-    const req = https.request(options, (res) => {
+    const req = https.request(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }, res => {
       let data = '';
       res.on('data', chunk => data += chunk);
-      res.on('end', () => resolve(JSON.parse(data)));
+      res.on('end', () => {
+        resolve(JSON.parse(data));
+      });
     });
     req.on('error', reject);
     req.write(JSON.stringify(payload));
