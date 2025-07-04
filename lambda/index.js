@@ -46,7 +46,7 @@ exports.handler = async (event) => {
 
 const callEksService = (payload) => {
   const options = {
-    hostname: 'https://4ipb00v0n1.execute-api.us-east-1.amazonaws.com/prod/',
+    hostname: 'https://a3aa-76-67-62-151.ngrok-free.app',
     port: 443,
     path: '/process-order',
     method: 'POST',
