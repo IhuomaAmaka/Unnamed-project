@@ -31,4 +31,4 @@ jobs:
         AWS_REGION: us-east-1
       run: |
         cd cdk
-        cdk deploy --require-approval never
+        cdk deploy --app "npx ts-node bin/cdk.ts" 
